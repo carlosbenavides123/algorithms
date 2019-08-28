@@ -6,54 +6,39 @@
 # employee_2 = [ (3, 5), (43, 54), (75, 97) ]
 # ans = [ (0, 2), (6, 43), (97, 100) ]
 
-# WIP
+# nlogn time n space
 
 
 def free_time_between_two_employees(employee_1, employee_2):
-    # i think we should get the free time of both employees first...
-    # rather than their work time
-    employee_1.sort(key=lambda i: i[0])
-    employee_2.sort(key=lambda i: i[0])
+    # i think take all the values in both arrays, sort them by start time
+    employees_work = employee_1[:] + employee_2[:]
+    employees_work.sort(key=lambda i: i[0])
 
-    work_overlap = []
+    merged_employee_work_time = []
 
-    idx, jdx, m, n = 0, 0, len(employee_1), len(employee_2)
-
-    while idx < m or jdx < n:
-        if work_overlap and idx < m and employee_1[idx][0] <= work_overlap[-1][1]:
-            last_start, last_end = work_overlap[-1]
-            work_overlap[-1] = (last_start, max(last_end,
-                                                work_overlap[idx][1]))
+    for start, end in employees_work:
+        if merged_employee_work_time and start <= merged_employee_work_time[-1][1]:
+            last_start, last_end = merged_employee_work_time[-1]
+            merged_employee_work_time[-1] = (last_start, max(last_end, end))
         else:
-            min_num = employee_1[idx][0] if jdx >= n else min(
-                employee_1[idx][0], employee_2[jdx][0])
-            work_overlap.append(
-                (min_num, employee_1[idx][1]))
+            merged_employee_work_time.append((start, end))
 
-        if work_overlap and jdx >= n and employee_2[jdx][0] <= work_overlap[-1][1]:
-            last_start, last_end = work_overlap[-1]
-            work_overlap[-1] = (last_start, max(last_end, employee_2[jdx][1]))
+    free_time = []
+
+    # kinda janky way to get solution, need to find better way...
+    for i in range(len(merged_employee_work_time)):
+        if i == 0:
+            free_time.append((0, merged_employee_work_time[i][0]))
         else:
-            min_num = employee_2[jdx][0] if idx >= m else min(
-                employee_1[idx][0], employee_2[jdx][0])
-            work_overlap.append(
-                (min_num, employee_2[idx][1]))
-        idx += 1
-        jdx += 1
-    print(work_overlap)
+            free_time.append(
+                (merged_employee_work_time[i-1][1], merged_employee_work_time[i][0]))
+    free_time.append(
+        (merged_employee_work_time[-1][1], 100))
 
-    # # [ (0, 2) ]
-    # free_time_emp_1 = [(0, employee_1[0][0]) if employee_1[0]
-    #                    [0] != 0 else (employee_1[0][1], employee_1[1][0])]
-    # # [ (0, 3) ]
-    # free_time_emp_2 = [(0, employee_2[0][0]) if employee_2[0]
-    #                    [0] != 0 else (employee_2[0][1], employee_2[1][0])]
-
-    # # [ (0, 2), (6, 54), (90, 100) ]
-    # for start, end in employee_1:
-    #     if free_time_emp_1 and free_time_emp_1[-1][1] < start:
+    # free_time[-1][1] = 100
+    return free_time
 
 
 employee_1 = [(2, 6), (54, 90)]
 employee_2 = [(3, 5), (43, 54), (75, 97)]
-free_time_between_two_employees(employee_1, employee_2)
+print free_time_between_two_employees(employee_1, employee_2)
