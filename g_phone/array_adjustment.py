@@ -22,8 +22,6 @@ def array_adjustment(nums, target):
         x = (left + right) // 2
         new_num = calculate_new_nums(nums, x)
         print(x, new_num)
-        if new_num == target:
-            return x
         if new_num < target:
             left = x + 1
         else:
