@@ -11,8 +11,9 @@ class Solution(object):
         if k == 0:
             res.append(temp[:])
         else:
+            print("min", min(3, len(s) - k + 1), s, k)
             for i in range(min(3, len(s)-k+1)):
-                print(i)
+                print(i, s[:i+1], "###################################")
                 if i == 2 and int(s[:3]) > 255 or i > 0 and s[0] == '0':
                     continue
                 print(temp+[s[:i+1]], temp, k)
