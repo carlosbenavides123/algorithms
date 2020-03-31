@@ -5,7 +5,7 @@ class Solution(object):
         return ['.'.join(x) for x in res]
 
     def recurse(self, s, k, res, temp):
-        print(temp, len(s))
+        print(s, len(s), k)
         if len(s) > k*3:
             return
         if k == 0:
@@ -21,4 +21,4 @@ class Solution(object):
 
 
 sol = Solution()
-print(sol.restoreIpAddresses("25525511135"))
+print(sol.restoreIpAddresses("1111"))
