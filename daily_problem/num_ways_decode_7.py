@@ -18,6 +18,8 @@
 # 5 - e
 # 1 solution
 # putting these together lets put it into 1d array
+# wat about 10?
+# can only do 1, k
 
 # input starts with 0, invalid
 # base case empty string, res = 1
@@ -27,10 +29,10 @@ string = input()
 
 # recursive
 def solve(string):
+	if string and  string[0] == "0":
+		return 0
 	if len(string) <= 1:
 		return 1
-	if string[0] == "0":
-		return 0
 	total = 0
 	total += solve(string[1:])
 	if len(string) >= 2 and int(string[:2]) <= 26:
